@@ -2,7 +2,6 @@ version: v1
 name: buf.build/datachainlab/ibc-hd-signer
 deps:
   - buf.build/cosmos/gogo-proto
-  - buf.build/cosmos/ibc
 breaking:
   use:
     - FILE
