@@ -1,6 +1,7 @@
 package hd
 
 import (
+	"context"
 	"crypto/ecdsa"
 	"fmt"
 
@@ -23,11 +24,11 @@ func NewSigner(mnemonic, path string) (*Signer, error) {
 	return &Signer{key}, nil
 }
 
-func (s *Signer) GetPublicKey() ([]byte, error) {
+func (s *Signer) GetPublicKey(_ context.Context) ([]byte, error) {
 	return gethcrypto.CompressPubkey(&s.key.PublicKey), nil
 }
 
-func (s *Signer) Sign(digest []byte) ([]byte, error) {
+func (s *Signer) Sign(_ context.Context, digest []byte) ([]byte, error) {
 	sig, err := gethcrypto.Sign(digest, s.key)
 	if err != nil {
 		return nil, fmt.Errorf("failed to sign tx: %v", err)

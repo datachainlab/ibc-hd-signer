@@ -1,7 +1,7 @@
 package hd
 
 import (
-	fmt "fmt"
+	"fmt"
 
 	"github.com/datachainlab/ibc-hd-signer/pkg/wallet"
 	"github.com/hyperledger-labs/yui-relayer/signer"
