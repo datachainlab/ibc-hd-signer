@@ -1,9 +1,9 @@
 package hd
 
 import (
-	"testing"
 	"encoding/hex"
 	"slices"
+	"testing"
 )
 
 func TestGetPublicKey(t *testing.T) {
@@ -89,4 +89,3 @@ func TestSign(t *testing.T) {
 		}
 	}
 }
-

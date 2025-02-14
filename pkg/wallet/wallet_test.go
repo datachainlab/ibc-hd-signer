@@ -1,9 +1,9 @@
 package wallet
 
 import (
-	"testing"
-	"math/big"
 	"encoding/hex"
+	"math/big"
+	"testing"
 )
 
 func TestParseHDPathLevel(t *testing.T) {
@@ -15,27 +15,27 @@ func TestParseHDPathLevel(t *testing.T) {
 		{
 			isErr:    false,
 			data:     "m/44'/60'/0'/0/0",
-			expected: HDPathLevel { 44, 60, 0, 0, 0 },
+			expected: HDPathLevel{44, 60, 0, 0, 0},
 		},
 		{
 			isErr:    true, // invalid path level
 			data:     "m/44'/60'/0'/0/0/7parts",
-			expected: HDPathLevel { 44, 60, 0, 0, 0 },
+			expected: HDPathLevel{44, 60, 0, 0, 0},
 		},
 		{
 			isErr:    true, // prefix should be 'm'
 			data:     "M/44'/60'/0'/0/0",
-			expected: HDPathLevel { 44, 60, 0, 0, 0 },
+			expected: HDPathLevel{44, 60, 0, 0, 0},
 		},
 		{
 			isErr:    true, // missing apostrophe: 44
 			data:     "m/44/60/0/0/0",
-			expected: HDPathLevel { 44, 60, 0, 0, 0 },
+			expected: HDPathLevel{44, 60, 0, 0, 0},
 		},
 		{
 			isErr:    true, // strconv.Atoi: parsing "str": invalid syntax
 			data:     "m/str'/60'/0'/0/0",
-			expected: HDPathLevel { 44, 60, 0, 0, 0 },
+			expected: HDPathLevel{44, 60, 0, 0, 0},
 		},
 	}
 
@@ -55,20 +55,20 @@ func TestParseHDPathLevel(t *testing.T) {
 
 func TestValidate(t *testing.T) {
 	cases := []struct {
-		data     HDPathLevel
-		isErr    bool
+		data  HDPathLevel
+		isErr bool
 	}{
 		{
-			isErr:    false,
-			data:     HDPathLevel{44, 60, 0, 0, 0},
+			isErr: false,
+			data:  HDPathLevel{44, 60, 0, 0, 0},
 		},
 		{
-			isErr:    true, // purpose should be 44
-			data:     HDPathLevel{41, 60, 0, 0, 0},
+			isErr: true, // purpose should be 44
+			data:  HDPathLevel{41, 60, 0, 0, 0},
 		},
 		{
-			isErr:    true, // change should be 0 or 1
-			data:     HDPathLevel{44, 60, 0, 99, 0},
+			isErr: true, // change should be 0 or 1
+			data:  HDPathLevel{44, 60, 0, 99, 0},
 		},
 	}
 
@@ -92,9 +92,9 @@ func TestGetPrvKeyFromHDWallet(t *testing.T) {
 		isErr  bool
 	}{
 		{
-			isErr:    false,
-			seed: "5d192f43318024f6919e92a6bdf9474b34b704295abb3e21599290d7a3262b567e6c6de54545e946d54b559f06ae475e57d3964875e889a724bbe7108374965c",
-			path: HDPathLevel{44, 60, 0, 0, 0},
+			isErr:  false,
+			seed:   "5d192f43318024f6919e92a6bdf9474b34b704295abb3e21599290d7a3262b567e6c6de54545e946d54b559f06ae475e57d3964875e889a724bbe7108374965c",
+			path:   HDPathLevel{44, 60, 0, 0, 0},
 			expect: "103621489529634167205139750085116413410837146389409995551260132005794187042961",
 		},
 	}
@@ -134,8 +134,8 @@ func TestGetPrvKeyFromMnemonicAndHDPath(t *testing.T) {
 		{
 			isErr:    false,
 			mnemonic: "math razor capable expose worth grape metal sunset metal sudden usage scheme",
-			path: "m/44'/60'/0'/0/0",
-			expect: "103621489529634167205139750085116413410837146389409995551260132005794187042961",
+			path:     "m/44'/60'/0'/0/0",
+			expect:   "103621489529634167205139750085116413410837146389409995551260132005794187042961",
 		},
 	}
 

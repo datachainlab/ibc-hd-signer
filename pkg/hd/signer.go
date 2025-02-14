@@ -4,15 +4,15 @@ import (
 	"crypto/ecdsa"
 	"fmt"
 
-	"github.com/hyperledger-labs/yui-relayer/signer"
 	"github.com/datachainlab/ibc-hd-signer/pkg/wallet"
 	gethcrypto "github.com/ethereum/go-ethereum/crypto"
+	"github.com/hyperledger-labs/yui-relayer/signer"
 )
 
 var _ signer.Signer = (*Signer)(nil)
 
 type Signer struct {
-	key    *ecdsa.PrivateKey
+	key *ecdsa.PrivateKey
 }
 
 func NewSigner(mnemonic, path string) (*Signer, error) {
