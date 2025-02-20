@@ -1,9 +1,10 @@
 package hd
 
 import (
-	"testing"
+	"context"
 	"encoding/hex"
 	"slices"
+	"testing"
 )
 
 func TestGetPublicKey(t *testing.T) {
@@ -28,7 +29,7 @@ func TestGetPublicKey(t *testing.T) {
 			continue
 		}
 
-		pkBytes, err := signer.GetPublicKey()
+		pkBytes, err := signer.GetPublicKey(context.Background())
 		if c.isErr {
 			if err == nil {
 				t.Errorf("GetPublicKey(%s, %s) unexpectedly returned %v", c.mnemonic, c.path, pkBytes)
@@ -72,7 +73,7 @@ func TestSign(t *testing.T) {
 			continue
 		}
 
-		sign, err := signer.Sign(digest)
+		sign, err := signer.Sign(context.Background(), digest)
 		if c.isErr {
 			if err == nil {
 				t.Errorf("Sign(%s, %s) unexpectedly returned %v", c.mnemonic, c.path, sign)
@@ -89,4 +90,3 @@ func TestSign(t *testing.T) {
 		}
 	}
 }
-

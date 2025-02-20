@@ -1,10 +1,10 @@
 package hd
 
 import (
-	fmt "fmt"
+	"fmt"
 
-	"github.com/hyperledger-labs/yui-relayer/signer"
 	"github.com/datachainlab/ibc-hd-signer/pkg/wallet"
+	"github.com/hyperledger-labs/yui-relayer/signer"
 )
 
 var _ signer.SignerConfig = (*SignerConfig)(nil)
