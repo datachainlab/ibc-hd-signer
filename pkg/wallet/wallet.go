@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/btcsuite/btcd/btcutil/hdkeychain"
+	gethcrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/btcsuite/btcd/chaincfg"
 	bip39 "github.com/tyler-smith/go-bip39"
 )
@@ -124,7 +125,18 @@ func GetPrvKeyFromHDWallet(seed []byte, hp *HDPathLevel) (*ecdsa.PrivateKey, err
 	if err != nil {
 		return nil, err
 	}
-	return btcecPrivKey.ToECDSA(), nil
+
+	// Convert the btcec private key to an ECDSA private key for compatibility with Ethereum's crypto library.
+	ecdsaPrivKey := btcecPrivKey.ToECDSA()
+
+	// In !cgo environments, the curve data type of go-ethereum's S256() differs from btcsuite's implementation.
+	// This discrepancy can cause issues when comparing curve objects in go-ethereum/crypto/signature_nocgo.go.
+	// To ensure compatibility and consistency, we explicitly replace the Curve with gethcrypto.S256().
+	if ecdsaPrivKey.Curve.Params().Name == "secp256k1" && ecdsaPrivKey.Curve != gethcrypto.S256() {
+		ecdsaPrivKey.Curve = gethcrypto.S256()
+	}
+
+	return ecdsaPrivKey, nil
 }
 
 func GetPrvKeyFromMnemonicAndHDWPath(mnemonic, path string) (*ecdsa.PrivateKey, error) {
