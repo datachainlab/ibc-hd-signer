@@ -126,11 +126,12 @@ func GetPrvKeyFromHDWallet(seed []byte, hp *HDPathLevel) (*ecdsa.PrivateKey, err
 		return nil, err
 	}
 
+	// Convert the btcec private key to an ECDSA private key for compatibility with Ethereum's crypto library.
 	ecdsaPrivKey := btcecPrivKey.ToECDSA()
 
-	// In !cgo environments, curve data type of go-ethereum's S256() is differ from btcsuite's one.
-	// So compareing curve object in go-ethereum/crypto/signature_nocgo.go fails.
-	// To ensure consistency, we replace the Curve with gethcrypto.S256().
+	// In !cgo environments, the curve data type of go-ethereum's S256() differs from btcsuite's implementation.
+	// This discrepancy can cause issues when comparing curve objects in go-ethereum/crypto/signature_nocgo.go.
+	// To ensure compatibility and consistency, we explicitly replace the Curve with gethcrypto.S256().
 	if ecdsaPrivKey.Curve.Params().Name == "secp256k1" && ecdsaPrivKey.Curve != gethcrypto.S256() {
 		ecdsaPrivKey.Curve = gethcrypto.S256()
 	}
